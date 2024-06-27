@@ -1,0 +1,30 @@
+{
+  "name": "api-factorizacion-qr-node-v1",
+  "version": "1.0.0",
+  "description": "Factorización QR de Matriz Inversa en Node.js con Express",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jorge2824/api-factorizacion-qr-node-v1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jorge2824/api-factorizacion-qr-node-v1/issues"
+  },
+  "homepage": "https://github.com/Jorge2824/api-factorizacion-qr-node-v1#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.14.1",
+    "typescript": "^5.5.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}

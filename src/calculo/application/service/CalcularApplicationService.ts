@@ -1,8 +1,7 @@
-import { Request, Response } from "express";
-
 import { Logger } from "@logger/logger";
 import { CalcularDomainService } from '../../domain/service/CalcularDomainService';
 import { IMatrixDto } from '../dto/MatrixDto';
+import { MatrixResponseDto } from '../response/MatrixResponseDto';
 
 export class CalcularApplicationService {
   private readonly logger;
@@ -13,9 +12,23 @@ export class CalcularApplicationService {
     this.calcularDomainService = calcularDomainService;
   }
 
-  public calcularMatriz(request: IMatrixDto) : IMatrixDto {
-    let rotatedQ = this.calcularDomainService.getRotatedMatrix(request.q);
-    let rotatedR = this.calcularDomainService.getRotatedMatrix(request.r);
-    return { q: rotatedQ, r: rotatedR };
+  public calcularMatriz(request: IMatrixDto) : MatrixResponseDto {
+    const matrix = [...request.q, ...request.r]
+    const flatMatrix = matrix.flat();
+    const maxValue = Math.max(...flatMatrix);
+    const minValue = Math.min(...flatMatrix);
+    const sumTotal = flatMatrix.reduce((a: number, b: number) => a + b, 0);
+    const average = sumTotal / flatMatrix.length;
+    const isQDiagonal = this.calcularDomainService.isDiagonalMatrix(request.q);
+    const isRDiagonal = this.calcularDomainService.isDiagonalMatrix(request.r);
+    return {
+      status: 200,
+      maxValue,
+      minValue,
+      sumTotal,
+      average,
+      isQDiagonal,
+      isRDiagonal
+    };
   }
 }

@@ -1,5 +1,3 @@
-import { Request, Response } from "express";
-
 import { Logger } from "@logger/logger";
 
 export class CalcularDomainService {
@@ -9,16 +7,7 @@ export class CalcularDomainService {
     this.logger = dependencies.logger;
   }
 
-  public getRotatedMatrix(matrix: number[][]) {
-    const numRows: number = matrix.length;
-    const numCols: number = matrix[0].length;
-
-    let rotated = Array.from({ length: numCols }, () => Array(numRows).fill(0));
-    for (let i = 0; i < numRows; i++) {
-        for (let j = 0; j < numCols; j++) {
-            rotated[j][numRows - i - 1] = matrix[i][j];
-        }
-    }
-    return rotated;
+  public isDiagonalMatrix(matrix: number[][]): boolean {
+    return matrix.every((row: number[], i: number) => row.every((value: number, j: number) => (i === j) || (value === 0)));
   }
 }

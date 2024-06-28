@@ -1,8 +1,10 @@
 import http from "node:http";
 import express, { Express } from "express";
 import { config } from "@core/config/config";
-import { userRouter } from "./router";
-
+import { calcularRouter } from "./router";
+import { ConsoleLogger } from "@logger/console-logger";
+import { Logger } from '@logger/logger';
+import { AddressInfo } from 'net';
 
 export class Server {
     private readonly app: Express;
@@ -13,7 +15,7 @@ export class Server {
       this.logger = new ConsoleLogger();
       this.app = express();
       this.app.use(express.json());
-      this.app.use("/calcular", userRouter);
+      this.app.use("/calcular", calcularRouter);
     }
   
     async start(): Promise<void> {

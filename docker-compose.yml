@@ -1,0 +1,43 @@
+---
+version: "3.8"
+
+services:
+  api-prod-node-ts:
+    container_name: api-prod-node-ts-container
+    build:
+      target: production
+      context: .
+      args:
+        - PORT=${PORT:-4000}
+    ports:
+      - "${PORT:-4000}:${PORT:-4000}"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "512m"
+        reservations:
+          cpus: "0.25"
+          memory: "256m"
+  api-dev-node-ts:
+    container_name: api-dev-node-ts-container
+    restart: unless-stopped
+    env_file: .env
+    build:
+      target: dev
+      context: .
+      args:
+        - PORT=${PORT:-4000}
+    ports:
+      - "${PORT:-4000}:${PORT:-4000}"
+      - "9229:9229"
+    volumes:
+      - .:/app
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "512m"
+        reservations:
+          cpus: "0.25"
+          memory: "256m"

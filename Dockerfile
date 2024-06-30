@@ -1,22 +1,38 @@
-FROM node:20-alpine AS builder
+# Etapa de construcción
+FROM node:20-alpine AS base
 
-WORKDIR /app
+ENV DIR /app
+WORKDIR $DIR
 
-COPY package*.json ./
+FROM base AS dev
 
-RUN npm install
+ENV NODE_ENV=development
+COPY package*.json .
+RUN npm ci
+COPY tsconfig*.json .
+COPY .swcrc .
+COPY src src
+EXPOSE $PORT
+CMD ["npm", "run", "dev"]
 
-COPY . .
+FROM base AS builder
 
-RUN npm run build
+COPY package*.json .
+RUN npm ci
+COPY tsconfig*.json .
+COPY .swcrc .
+COPY src src
+RUN npm run build && \
+    npm prune --production
 
-FROM node:20-alpine
+FROM base AS production
 
-WORKDIR /app
-
+ENV NODE_ENV=production
+ENV USER=node
+ENV PORT=4000
 COPY --from=builder /app/dist ./dist
-COPY package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
 
-RUN npm install --only=production
-EXPOSE 4000
-CMD ["npm", "start"]
+USER $USER
+EXPOSE $PORT
+CMD ["node", "dist/main.js"]

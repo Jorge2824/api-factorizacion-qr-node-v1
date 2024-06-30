@@ -23,12 +23,14 @@ export class CalcularApplicationService {
     const isRDiagonal = this.calcularDomainService.isDiagonalMatrix(request.r);
     return {
       status: 200,
-      maxValue,
-      minValue,
-      sumTotal,
-      average,
-      isQDiagonal,
-      isRDiagonal
+      data: {
+        maxValue,
+        minValue,
+        sumTotal,
+        average,
+        isQDiagonal,
+        isRDiagonal
+      }
     };
   }
 }

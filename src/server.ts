@@ -1,7 +1,7 @@
 import http from "node:http";
 import express, { Express } from "express";
 import { config } from "@core/config/config";
-import { calcularRouter } from "./router";
+import { calcularRouter, healthRouter } from "./router";
 import { ConsoleLogger } from "@logger/console-logger";
 import { Logger } from '@logger/logger';
 import { AddressInfo } from 'net';
@@ -16,6 +16,7 @@ export class Server {
       this.app = express();
       this.app.use(express.json());
       this.app.use("/calcular", calcularRouter);
+      this.app.use("/health", healthRouter);
     }
   
     async start(): Promise<void> {
